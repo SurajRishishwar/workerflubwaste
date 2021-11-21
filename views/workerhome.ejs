@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>
+            <%=title%>
+        </title>
+    </head>
+    <body>
+        <!-- this is worker page <br><a href="/usersquery">From users</a> -->
+        <hr>
+        <% for(let i of list){%>
+            
+                <div class="details">
+                    
+                   
+                    <p> User Name: <%= i.userid.name%></p>
+                    <p> Pick date: <%= i.queryid.pickupdate%></p>
+                    <p> Pick time: <%= i.queryid.pickuptime%></p>
+                    <!-- <p> Quantity: <%= i.queryid.reachedstatus%></p> -->
+                    
+                   <!-- <%if(!i.queryid.reachedstatus){%>
+                    <p>verifying customer</p>
+                    <form action="/reached" method="POST">
+                        <input type="hidden" name="queryid" value="<%= i.queryid._id%>">
+                        <input type="text"  name="reachedotp" maxlength="4" pattern="\d{4}" required/>
+                        <input type="submit" value="Auth position">
+                     </form>
+                  
+                    <%}%> -->
+                         
+                   <%if(i.queryid.status==="a"){%>
+                    <p>we take round off figure ofyour waste weight</p>
+                    <form action="/getverified" method="POST">
+                        <input type="hidden" name="queryid" value="<%= i.queryid._id%>">
+                        <input type="number"  name="quantity" step="any" placeholder="weight" required/>
+                        <input type="submit" value="update weight">
+                     </form>
+                  
+                    <%}%>
+                    <%if(i.queryid.status==="wupdate"){%>
+                        <p>get otp from user to verify weight</p>
+                        <form action="/getcompleted" method="POST">
+                            <input type="hidden" name="queryid" value="<%= i.queryid._id%>">
+                            <input type="hidden" name="userid" value="<%= i.userid._id%>">
+                            <input type="text"  name="verifyotp" maxlength="4" pattern="\d{4}" placeholder="otp" required/>
+                            <input type="submit" value="finish">
+                         </form>
+                      
+                        <%}%>
+                        <%if(i.queryid.status==="completed"){%>
+                            <p>process completed</p>
+                          
+                          
+                            <%}%>
+                        
+
+                    
+                    <hr>
+                </div>
+               
+            
+        <% } %>
+    </body>
+</html>

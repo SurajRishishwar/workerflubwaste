@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/worker.css" />
+    <title><%=title%></title>
+  </head>
+  <body>
+    <%if(locals.user){%>
+          
+        <div>
+            <a href="/logout">logout</a>
+        </div>
+      <%}%>
+    <div class="faq-container">
+
+        <% for(let i of list){%>
+            <div class="faq">
+                <h3 class="faq-title"><%=i.userid.name%></h3>
+                <p class="faq-text">
+                 <%=i.userid.email%><br>
+                 <%=i.userid.phone%>
+                 <%if(i.queryid.status==="a"){%>
+                    <p>Get Weight</p>
+                    <p class="faq-text">we take round off figure ofyour waste weight</p>
+                    <form class="faq-text" action="/getverified" method="POST">
+                        <input type="hidden" name="queryid" value="<%= i.queryid._id%>">
+                        <input type="number"  name="quantity" step="any" placeholder="weight" required/>
+                        <input type="submit" value="update weight">
+                     </form>
+                  
+                    <%}%>
+                    <%if(i.queryid.status==="wupdate"){%>
+                        <p>Get OTP</p>
+                        <p class="faq-text">get otp from user to verify weight</p>
+                        <form class="faq-text" action="/getcompleted" method="POST">
+                            <input type="hidden" name="queryid" value="<%= i.queryid._id%>">
+                            <input type="hidden" name="userid" value="<%= i.userid._id%>">
+                            <input type="text"  name="verifyotp" maxlength="4" pattern="\d{4}" placeholder="otp" required/>
+                            <input type="submit" value="finish">
+                         </form>
+                      
+                        <%}%>
+                        <%if(i.queryid.status==="completed"){%>
+                            <p>process completed</p>
+                          
+                          
+                            <%}%>
+                        
+                </p>
+                <button class="faq-toggle">
+                  <i class="fas fa-chevron-down"></i>
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+        <%}%>
+     
+        <!-- Javascript Code, Must always be at bottom -->
+    <script src="/js/worker.js"></script>
+    <base href="/css-collapsible-cards" />
+  </body>
+</html>
